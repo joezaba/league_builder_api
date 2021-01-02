@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS accounts (
     account_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     account_name VARCHAR(255) UNIQUE NOT NULL,
     account_level VARCHAR(255) DEFAULT 'DEFAULT',
-    is_current TINYINT(1) NOT NULL DEFAULT TRUE,
+    is_active TINYINT(1) NOT NULL DEFAULT TRUE,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (account_level) REFERENCES account_levels (account_level) ON UPDATE CASCADE ON DELETE RESTRICT
@@ -50,3 +50,14 @@ CREATE TABLE IF NOT EXISTS account_users (
     FOREIGN KEY (account_id) REFERENCES accounts (account_id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (app_user_id) REFERENCES app_users (app_user_id) ON UPDATE CASCADE ON DELETE CASCADE
   ) default charset utf8 ENGINE = INNODB;
+
+INSERT INTO
+  accounts (account_name)
+VALUES
+  ('ifoothills');
+  
+DROP TABLE IF EXISTS account_users;
+DROP TABLE IF EXISTS app_users;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS accounts;
+DROP TABLE IF EXISTS account_levels;

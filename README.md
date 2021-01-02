@@ -9,9 +9,8 @@ This project was built on the following tecnologies. The versions are not necess
 * [TypeScript](https://www.typescriptlang.org/) - v4.1.3
 * [npm](https://www.npmjs.com/) - v6.14.8
 * [Node.js](https://nodejs.org/en/) - v12.19.0
-  * [Express](https://expressjs.com/) - v4.17.1
-  * [InversifyJS](https://inversify.io/) - v5.0.5
-  * [Sequelize](https://sequelize.org/) - v6.3.5
+* [Express](https://expressjs.com/) - v4.17.1
+
 
 ### Installation
 After installing Node.js and npm:

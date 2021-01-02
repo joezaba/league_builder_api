@@ -1,0 +1,20 @@
+GET http://localhost:8080/account-levels HTTP/1.1
+content-type: application/json
+
+###
+GET http://localhost:8080/account-levels/active HTTP/1.1
+content-type: application/json
+
+###
+POST http://localhost:8080/account-levels HTTP/1.1
+content-type: application/json
+
+{
+    "accountLevel" : "ACTIVE2"
+}
+
+###
+DELETE http://localhost:8080/account-levels/active2 HTTP/1.1
+content-type: application/json
+
+###
