@@ -13,19 +13,19 @@ const { combine, timestamp, label, printf, metadata } = format;
 
 class Logger {
 
-    logger: winston.Logger
+    logger: winston.Logger;
 
     constructor() {
         const defaultFormat = printf((info) => {
             let formatStr = `${info.timestamp} [${info.level}] `;
 
-            if(info.status){
+            if (info.status) {
                 formatStr += `Status:${info.status}, `;
             }
-            
+
             formatStr += `${info.message} `;
 
-            if(info.class){
+            if (info.class) {
                 formatStr += `(${info.class}) `
             }
             return formatStr;
@@ -34,48 +34,64 @@ class Logger {
         const verboseFormat = printf((info) => {
             let formatStr = `${info.timestamp} [${info.level}] `;
 
-            if(info.status){
+            if (info.status) {
                 formatStr += `Status:${info.status}, `;
             }
-            
+
             formatStr += `${info.message} `;
 
-            if(info.class){
+            if (info.class) {
                 formatStr += `(${info.class}) `
             }
 
-            if(info.error){
+            if (info.error) {
                 formatStr += `\n ${info.error}`
             }
             return formatStr;
         });
 
-        this.logger = winston.createLogger({
-            level: 'debug',
-            format: combine(
-                label({ label: 'Default' }),
-                timestamp(),
-                defaultFormat
-            ),
-            transports: [
-                //
-                // - Write all logs with level `error` and below to `error.log`
-                // - Write all logs with level `info` and below to `combined.log`
-                //
-                new winston.transports.File({ filename: 'logs/combined.log' }),
-                new winston.transports.Console({ level: 'info' })
-            ]
-        });
+        this.logger = winston.createLogger();
 
-        this.logger.add(new winston.transports.File({
-            filename: 'logs/error.log', 
-            level: 'error',
-            format: combine(
-                label({ label: 'Default' }),
-                timestamp(),
-                verboseFormat
-            ),
-        }));
+        if (process.env.NODE_ENV !== 'test') {
+            this.logger.add(new winston.transports.Console({
+                level: 'debug',
+                format: combine(
+                    label({ label: 'Default' }),
+                    timestamp(),
+                    defaultFormat
+                ),
+            }));
+
+            this.logger.add(new winston.transports.File({
+                filename: 'logs/combined.log',
+                level: 'debug',
+                format: combine(
+                    label({ label: 'Default' }),
+                    timestamp(),
+                    defaultFormat
+                ),
+            }));
+
+            this.logger.add(new winston.transports.File({
+                filename: 'logs/error.log',
+                level: 'error',
+                format: combine(
+                    label({ label: 'Default' }),
+                    timestamp(),
+                    verboseFormat
+                ),
+            }));
+        } else {
+            this.logger.add(new winston.transports.File({
+                filename: 'logs/test.log',
+                level: 'info',
+                format: combine(
+                    label({ label: 'Default' }),
+                    timestamp(),
+                    verboseFormat
+                ),
+            }));
+        }
 
     }
 

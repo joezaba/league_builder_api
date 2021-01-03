@@ -4,7 +4,7 @@ import Logger from './Logger';
 
 export default new class Database {
 
-    private dbConfig() {
+    public dbConfig() {
         return {
             host: process.env.DB_HOST || "localhost",
             user: process.env.DB_USER || "root",
@@ -18,8 +18,10 @@ export default new class Database {
         try {
             await this.getConnection().promise().connect();
             Logger.info("Successfully connected to MySql Database.")
+            return true;
         } catch (err) {
             Logger.error({ message: "Unable to connect to MySql Database.", class: "Database", error: err });
+            return false;
         }
     }
 
@@ -44,7 +46,7 @@ export default new class Database {
         if(values){
             return await this.getConnection().promise().query(sql, values);
         } else {
-            return await this.getConnection().promise().query(sql);
+            return await this.getConnection().promise().execute(sql);
         }
     }
 }

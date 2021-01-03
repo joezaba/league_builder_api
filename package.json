@@ -5,8 +5,9 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc --watch",
-    "start": "node .",
-    "test": "node ./dist/test.js"
+    "start": "nodemon .",
+    "test": "jest --config ./jest-config.js --detectOpenHandles --forceExit --watch",
+    "test:cov": "jest --config ./jest-config.js --detectOpenHandles --coverage"
   },
   "repository": {
     "type": "git",
@@ -31,8 +32,11 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.9",
+    "@types/iconv-lite": "0.0.1",
+    "@types/jest": "^26.0.19",
     "@types/mysql": "^2.15.17",
     "@types/node": "^14.14.17",
-    "@types/validator": "^13.1.2"
+    "@types/validator": "^13.1.2",
+    "iconv-lite": "^0.6.2"
   }
 }

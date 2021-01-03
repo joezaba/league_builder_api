@@ -1,7 +1,7 @@
 import express from "express";
 import Controller from "../core/Controller";
 import Logger from "../core/Logger";
-import { AccountLevel } from "../models/AccountLevel";
+import AccountLevel from "../models/AccountLevel";
 import AccountLevelRepository from "../repositories/AccountLevelRepository";
 
 
