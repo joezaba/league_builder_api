@@ -5,6 +5,10 @@ import Logger from './Logger';
 export default new class Database {
 
     public dbConfig() {
+
+        if(process.env.DATABASE_URL)
+            return process.env.DATABASE_URL;
+
         return {
             host: process.env.DB_HOST || "localhost",
             user: process.env.DB_USER || "root",
@@ -12,6 +16,7 @@ export default new class Database {
             database: process.env.DB_NAME || "database",
             port: 3306
         }
+
     }
 
     public async authenticate() {
@@ -26,6 +31,7 @@ export default new class Database {
     }
 
     public getConnection(): mysql.Connection {
+        //@ts-ignore
         return mysql.createConnection(this.dbConfig());
     }
 
