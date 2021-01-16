@@ -5,7 +5,7 @@ require('mysql2/node_modules/iconv-lite').encodingExists('foo');
 import Database from '../../core/Database';
 
 test('Test is using test DB', async () => {    
-    expect(Database.dbConfig().database).toBe('test');
+    expect(Database.dbConfig()).toBe('test');
 })
 
 test('Test is able to connect to Test DB', async () => {
