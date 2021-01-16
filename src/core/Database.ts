@@ -11,7 +11,8 @@ export default new class Database {
             password: process.env.DB_PASSWORD || "",
             database: process.env.DB_NAME || "database",
             port: process.env.DB_PORT ? +process.env.DB_PORT : 3306,
-            sslmode: 'REQUIRED'
+            sslmode: 'REQUIRED',
+            logging: false
         }
 
     }
@@ -28,6 +29,9 @@ export default new class Database {
     }
 
     public getConnection(): mysql.Connection {
+        if(process.env.DATABASE_URL){
+         return mysql.createConnection(process.env.DATABASE_URL);
+        }
         return mysql.createConnection(this.dbConfig()); 
     }
 
