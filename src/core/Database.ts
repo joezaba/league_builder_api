@@ -6,18 +6,13 @@ export default new class Database {
 
     public dbConfig() {
 
-        if(process.env.DATABASE_URL)
-            return process.env.DATABASE_URL;
-
-        return '';
-
-        // return {
-        //     host: process.env.DB_HOST || "localhost",
-        //     user: process.env.DB_USER || "root",
-        //     password: process.env.DB_PASSWORD || "",
-        //     database: process.env.DB_NAME || "database",
-        //     port: 3306
-        // }
+        return {
+            host: process.env.HOSTNAME || "localhost",
+            user: process.env.DB_USER || "root",
+            password: process.env.DB_PASSWORD || "",
+            database: process.env.DB_NAME || "database",
+            port: 3306,
+        }
 
     }
 
@@ -33,7 +28,7 @@ export default new class Database {
     }
 
     public getConnection(): mysql.Connection {
-        return mysql.createConnection(this.dbConfig());
+        return mysql.createConnection(this.dbConfig()); 
     }
 
     public async connect() {
