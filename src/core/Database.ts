@@ -19,9 +19,9 @@ export default new class Database {
             await this.getConnection().promise().connect();
             Logger.info("Successfully connected to MySql Database.")
             return true;
-        } catch (err) {
+        } catch (err) { 
             Logger.error({ message: "Unable to connect to MySql Database.", class: "Database", error: err });
-            return false;
+            return false; 
         }
     }
 

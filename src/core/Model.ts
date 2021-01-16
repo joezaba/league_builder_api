@@ -1,5 +1,5 @@
 
 
-export default class Model {
+export default abstract class Model {
     
 }

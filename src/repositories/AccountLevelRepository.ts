@@ -7,6 +7,9 @@ import AccountLevel from "../models/AccountLevel";
 
 export default new class AccountLevelRepository extends Repostitory {
 
+    tableName(): string {
+        return 'account_levels';
+    }
 
     public async findAll() {
         await Database.connect()

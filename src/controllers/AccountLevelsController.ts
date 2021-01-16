@@ -4,13 +4,17 @@ import Logger from "../core/Logger";
 import AccountLevel from "../models/AccountLevel";
 import AccountLevelRepository from "../repositories/AccountLevelRepository";
 
-
 export default new class AccountLevelsController extends Controller {
+    
+    public defaultRoute(): string {
+        return '/account-levels';
+    }
+    
     protected initRoutes(): void {
-        this.router.get('/account-levels', this.index);
-        this.router.get('/account-levels/:id', this.readAccountLevel);
-        this.router.post('/account-levels', this.createAccountLevel);
-        this.router.delete('/account-levels/:id', this.deleteAccountLevel);
+        this.router.get('/', this.index);
+        this.router.get('/:id', this.readAccountLevel);
+        this.router.post('/', this.createAccountLevel);
+        this.router.delete('/:id', this.deleteAccountLevel);
     }
 
     async index(req: express.Request, res: express.Response) {

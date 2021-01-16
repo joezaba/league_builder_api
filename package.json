@@ -4,8 +4,10 @@
   "description": "league_builder_api is a sports management Rest API for sports based organizations.",
   "main": "dist/main.js",
   "scripts": {
-    "build": "tsc --watch",
-    "start": "nodemon .",
+    "build:dev": "tsc --watch",
+    "start:dev": "nodemon .",
+    "build": "npm i -g typescript && tsc",
+    "start": "node .",
     "test": "jest --config ./jest-config.js --detectOpenHandles --forceExit --watch",
     "test:cov": "jest --config ./jest-config.js --detectOpenHandles --coverage"
   },

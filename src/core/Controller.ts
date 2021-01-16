@@ -9,6 +9,7 @@ export default abstract class Controller {
     }
 
     protected abstract initRoutes(): void;
+    public abstract defaultRoute(): string;
 
     public getRouter(): express.Router {
         return this.router;
