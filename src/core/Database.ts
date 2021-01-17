@@ -1,3 +1,4 @@
+import { url } from 'inspector';
 import mysql from 'mysql2';
 import DBConnectionException from '../exceptions/DBConnectionException';
 import Logger from './Logger';
@@ -5,14 +6,18 @@ import Logger from './Logger';
 export default new class Database {
 
     public dbConfig() {
-        return {
-            host: process.env.HOSTNAME || "localhost",
-            user: process.env.DB_USER || "root",
-            password: process.env.DB_PASSWORD || "",
-            database: process.env.DB_NAME || "database",
-            port: process.env.DB_PORT ? +process.env.DB_PORT : 3306,
+        let dbUrl:string;
+        if ( process.env.DATABASE_URL ) {
+            dbUrl = process.env.DATABASE_URL;
+        } else {
+            const host = process.env.HOSTNAME || "localhost";
+            const user = process.env.DB_USER || "root";
+            const password = process.env.DB_PASSWORD || "";
+            const database = process.env.DB_NAME || "database";
+            const port = process.env.DB_PORT ? +process.env.DB_PORT : 3306;
+            dbUrl = `mysql://${user}:${password}@${host}:${port}/${database}`;
         }
-
+        return dbUrl.split('?')[0];
     }
 
     public async authenticate() {
@@ -20,17 +25,14 @@ export default new class Database {
             await this.getConnection().promise().connect();
             Logger.info("Successfully connected to MySql Database.")
             return true;
-        } catch (err) { 
+        } catch (err) {
             Logger.error({ message: "Unable to connect to MySql Database.", class: "Database", error: err });
-            return false; 
+            return false;
         }
     }
 
     public getConnection(): mysql.Connection {
-        if(process.env.DATABASE_URL){
-         return mysql.createConnection(process.env.DATABASE_URL);
-        }
-        return mysql.createConnection(this.dbConfig()); 
+        return mysql.createConnection(this.dbConfig());
     }
 
     public async connect() {
@@ -47,7 +49,7 @@ export default new class Database {
     }
 
     public async query(sql: string, values?: any) {
-        if(values){
+        if (values) {
             return await this.getConnection().promise().query(sql, values);
         } else {
             return await this.getConnection().promise().execute(sql);
