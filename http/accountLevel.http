@@ -14,7 +14,7 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:8080/account-levels/active2 HTTP/1.1
+DELETE http://localhost:8080/account-levels/default HTTP/1.1
 content-type: application/json
 
 ###

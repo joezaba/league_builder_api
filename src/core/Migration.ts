@@ -3,8 +3,6 @@ import Logger from "./Logger";
 
 
 export const migrateUp = async () => {
-    Database.connect();
-
     // create account_level Table
     try {
         await Database.query(`
@@ -13,7 +11,7 @@ export const migrateUp = async () => {
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             ) default charset utf8 ENGINE = INNODB;
-    `); 
+    `);
     } catch (error) {
         Logger.error({ message: 'could not create account_levels', class: 'core/Migrations', error: error });
         return false;
@@ -40,7 +38,7 @@ export const migrateUp = async () => {
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (account_level) REFERENCES account_levels (account_level) ON UPDATE CASCADE ON DELETE RESTRICT
             ) default charset utf8 ENGINE = INNODB;
-    `); 
+    `);
     } catch (error) {
         Logger.error({ message: 'could not create accounts', class: 'core/Migrations', error: error });
         return false;
@@ -54,7 +52,7 @@ export const migrateUp = async () => {
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 ) default charset utf8 ENGINE = INNODB;
-    `); 
+    `);
     } catch (error) {
         Logger.error({ message: 'could not create user_roles', class: 'core/Migrations', error: error });
         return false;
@@ -62,7 +60,7 @@ export const migrateUp = async () => {
 
     // Insert Default value for Account Level
     try {
-        let defaultUR = [['ADMIN'],['ACCOUNT_USER']];
+        let defaultUR = [['ADMIN'], ['ACCOUNT_USER']];
         await Database.query('INSERT IGNORE INTO user_roles (user_role) VALUES ?', [defaultUR]);
     } catch (error) {
         Logger.error({ message: 'could not insert ADMIN & ACCOUNT_USER into user_roles', class: 'core/Migrations', error: error });
@@ -82,7 +80,7 @@ export const migrateUp = async () => {
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_role) REFERENCES user_roles (user_role) ON UPDATE CASCADE ON DELETE RESTRICT
             ) default charset utf8 ENGINE = INNODB;
-    `); 
+    `);
     } catch (error) {
         Logger.error({ message: 'could not create app_users', class: 'core/Migrations', error: error });
         return false;
@@ -100,7 +98,7 @@ export const migrateUp = async () => {
                 FOREIGN KEY (account_id) REFERENCES accounts (account_id) ON UPDATE CASCADE ON DELETE CASCADE,
                 FOREIGN KEY (app_user_id) REFERENCES app_users (app_user_id) ON UPDATE CASCADE ON DELETE CASCADE
             ) default charset utf8 ENGINE = INNODB;
-    `); 
+    `);
     } catch (error) {
         Logger.error({ message: 'could not create account_users', class: 'core/Migrations', error: error });
         return false;
@@ -116,7 +114,7 @@ export const migrateDown = async () => {
         await Database.query('DROP TABLE IF EXISTS app_users;');
         await Database.query('DROP TABLE IF EXISTS user_roles;');
         await Database.query('DROP TABLE IF EXISTS accounts;');
-        await Database.query('DROP TABLE IF EXISTS account_levels;'); 
+        await Database.query('DROP TABLE IF EXISTS account_levels;');
         return true;
     } catch (error) {
         Logger.error({ message: 'could not drop all tables', class: 'core/Migrations', error: error });

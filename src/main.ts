@@ -1,16 +1,18 @@
 require('dotenv').config();
 import Application from "./core/Application";
 import Logger from "./core/Logger";
-import { migrateUp } from "./core/Migration";
+import { migrateDown, migrateUp } from "./core/Migration";
 
 
 (async () => {
-    migrateUp();
-    const app = new Application();
     try {
+        await migrateDown();
+        await migrateUp();
+        const app = new Application();
         app.listen();
     } catch (error) {
         Logger.error(error);
     }
 })(); 
+
 

@@ -7,6 +7,8 @@ import bodyParser from "body-parser";
 import express from "express";
 import Logger from "./Logger";
 import Database from "./Database";
+import ResponseObject from "../models/ResponseObject";
+
 
 export default abstract class ApplicationBootstrap{
     app: express.Application;
@@ -19,6 +21,9 @@ export default abstract class ApplicationBootstrap{
         this.app.use(bodyParser.json());
         this.app.use('/', express.static(__dirname + '/../../static'));
         this.attachRoutes();
+        this.app.all('*',(req: express.Request, res: express.Response) => { 
+            new ResponseObject(404, 'Route Not Found').response(res, req);
+        });
         this.after();
     }
 
@@ -32,9 +37,9 @@ export default abstract class ApplicationBootstrap{
     }
 
     public listen() {
-        this.app.listen(this.port, () => {
-            Database.authenticate();
-            Logger.info(`Server started on port ${this.port}`)
+        this.app.listen(this.port, async () => {
+            Logger.info(`Server started on port ${this.port}`);
+            await Database.authenticate();
         });
     }
     protected abstract registerMiddleware(): any;

@@ -25,7 +25,6 @@ export default abstract class Repostitory {
 
     protected async selectAll() {
         try {
-            Database.connect();
             const results = await Database.query(`Select * FROM ${this.TABLE_NAME}`);
             return this.parseResults(results);
         } catch (error) {
@@ -50,38 +49,25 @@ export default abstract class Repostitory {
                 rowsStr += ', ';
             }
         })
-        try {
-            Database.connect();
-            const sql = `INSERT INTO ${this.TABLE_NAME} ( ${rowsStr} ) VALUES ?`
-            const results = await Database.query(sql, [[values]]);
-            return this.parseResults(results).insertId;
-        } catch (error) {
-            Logger.error({ message: error.code + error.message, error: error, class: 'AccountLevelsRepository' });
-            throw error;
-        }
+        const sql = `INSERT INTO ${this.TABLE_NAME} ( ${rowsStr} ) VALUES ?`
+        const results = await Database.query(sql, [[values]]);
+        return this.parseResults(results).insertId;
     }
 
     protected async selectOneWhere(key: string, value: string | number) {
-        await Database.connect();
         try {
             const results = await Database.query(`SELECT * FROM ${this.TABLE_NAME} WHERE ${key} = '${value}' LIMIT 1`);
             const data = await this.parseResults(results);
             return data[0];
         } catch (error) {
             Logger.error({ message: error.code + error.message, error: error, })
+            throw error;
         }
     }
 
     protected async deleteWhere(row: string, value: string | number) {
-        try {
-            await Database.connect();
-            await Database.query(`DELETE FROM ${this.TABLE_NAME} WHERE ${row} = '${value}'`);
-            return true;
-        } catch (error) {
-            Logger.error({ message: error.code + " " + error.message });
-            return false;
-        }
-
+        await Database.query(`DELETE FROM ${this.TABLE_NAME} WHERE ${row} = '${value}'`);
+        return true;
     }
 
     async updateWhere(rows: Array<string>, values: Array<string>, key: string, keyVal: string | number) {
@@ -93,7 +79,6 @@ export default abstract class Repostitory {
             }
         })
         const sql = `UPDATE ${this.TABLE_NAME} SET ${valStr} WHERE ${key} = ${keyVal};`;
-        await Database.connect();
         await Database.query(sql);
     }
 

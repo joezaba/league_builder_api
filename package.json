@@ -4,9 +4,9 @@
   "description": "league_builder_api is a sports management Rest API for sports based organizations.",
   "main": "dist/main.js",
   "scripts": {
-    "build:dev": "tsc --watch",
+    "build:dev": "npx tsc --watch",
     "start:dev": "nodemon .",
-    "build": "npm i -g typescript && tsc",
+    "build": "npx tsc",
     "start": "node .",
     "test": "jest --config ./jest-config.js --detectOpenHandles --forceExit --watch",
     "test:cov": "jest --config ./jest-config.js --detectOpenHandles --coverage"
@@ -30,6 +30,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mysql2": "^2.2.5",
+    "typescript": "^4.1.3",
     "winston": "^3.3.3"
   },
   "devDependencies": {
