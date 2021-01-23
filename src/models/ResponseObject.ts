@@ -13,9 +13,7 @@ export default class ResponseObject{
     constructor(status: number, message: string, data?: object ){
         this.status = status;
         this.message = message;
-        this.route = '';
         this.method = '';
-        this.timestamp = undefined;
 
 
         if(data){

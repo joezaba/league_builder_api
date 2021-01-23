@@ -17,7 +17,7 @@ export default new class Database {
             const port = process.env.DB_PORT ? +process.env.DB_PORT : 3306;
             dbUrl = `mysql://${user}:${password}@${host}:${port}/${database}?`;
         }
-        return dbUrl.split('?')[0];
+        return dbUrl.split('?')[0]; 
     }
 
     public async authenticate() {

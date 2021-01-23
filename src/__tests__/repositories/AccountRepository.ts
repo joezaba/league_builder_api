@@ -2,7 +2,6 @@ require('dotenv').config();
 process.env.NODE_ENV = 'test';
 process.env.DB_NAME = 'test'
 require('mysql2/node_modules/iconv-lite').encodingExists('foo');
-import { migrateDown, migrateUp } from '../../core/Migration';
 import { Account } from '../../models/Account';
 import AccountLevel from '../../models/AccountLevel';
 import AccountLevelRepository from '../../repositories/AccountLevelRepository';
@@ -10,7 +9,7 @@ import AccountLevelRepository from '../../repositories/AccountLevelRepository';
 import AccountRepository from "../../repositories/AccountRepository";
 
 beforeAll(async () => {
-    await migrateUp();
+    //await migrateUp();
 })
 
 test('test Account findAll()', async () => {
@@ -25,5 +24,5 @@ test('Account repostitory create() not to throw', async () => {
 })
 
 afterAll(async () => {
-    await migrateDown();
+    //await migrateDown();
 })
