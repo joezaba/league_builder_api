@@ -14,6 +14,9 @@ export default class ResponseObject{
         this.status = status;
         this.message = message;
         this.method = '';
+        this.route = '';
+        this.method = '';
+        this.timestamp = undefined
 
 
         if(data){
@@ -25,7 +28,6 @@ export default class ResponseObject{
 
         this.route = req.originalUrl;
         this.method = req.method;
-        console.log(req.get('User-Agent'));
         this.timestamp = new Date();
 
         res.status(this.status).json(this);
